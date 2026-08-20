@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .recipe-detail-page {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 18px;
+        padding: 1.5rem;
+        box-shadow: 0 14px 26px rgba(0,0,0,0.12);
+        color: #212121;
+    }
+    .recipe-detail-page h1,
+    .recipe-detail-page h5,
+    .recipe-detail-page p,
+    .recipe-detail-page li { color: #1f1f1f; }
+    .recipe-detail-page .card {
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0,0,0,0.08);
+    }
+</style>
+<div class="row recipe-detail-page">
+    <div class="col-md-8">
+        <h1>{{ recipe.title }}</h1>
+        <p style="color: #4f4f4f; font-weight: 600;">Category: {{ recipe.category.name }} · By {{ recipe.author.username }} · {{ recipe.created_at|date:'M d, Y' }}</p>
+        {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" class="img-fluid rounded mb-3" alt="{{ recipe.title }}" />
+        {% endif %}
+        <h5>Ingredients</h5>
+        <p>{{ recipe.ingredients|linebreaksbr }}</p>
+        <h5>Instructions</h5>
+        <p>{{ recipe.instructions|linebreaksbr }}</p>
+        <div class="mb-3">
+            <button id="like-btn" class="btn btn-outline-danger me-2" onclick="toggleLike();">{{ user_like|yesno:'Unlike,Like' }}</button>
+            <span id="like-count">{{ recipe.likes_count }}</span> Likes
+
+            <button id="fav-btn" class="btn btn-outline-warning ms-3" onclick="toggleFavorite();">{{ user_favorite|yesno:'Unfavorite,Favorite' }}</button>
+            <span id="fav-count">{{ recipe.favorites_count }}</span> Favorites
+        </div>
+
+        {% if user == recipe.author %}
+            <a href="{% url 'recipe_update' recipe.slug %}" class="btn btn-secondary">Edit</a>
+            <a href="{% url 'recipe_delete' recipe.slug %}" class="btn btn-danger">Delete</a>
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <div class="card mb-3" style="background: linear-gradient(135deg, rgba(240, 255, 240, 0.95), rgba(220, 255, 220, 0.95)); border: 1px solid rgba(0,0,0,0.08);">
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="object-fit: cover; max-height: 220px;" />
+            {% endif %}
+            <div class="card-body" style="color: #1a4d1a;">
+                <h5 style="color: #2d5a2d;">Quick Info</h5>
+                <p><strong>Category:</strong> {{ recipe.category.name }}</p>
+                <p><strong>Author:</strong> {{ recipe.author.username }}</p>
+                <p><strong>Posted:</strong> {{ recipe.created_at|date:'M d, Y' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function postJson(url, data = {}) {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify(data),
+        credentials: 'same-origin'
+    }).then(r => r.json());
+}
+
+function updateCounts(data) {
+    if (data.likes_count !== undefined) {
+        document.getElementById('like-count').textContent = data.likes_count;
+        document.getElementById('like-btn').textContent = data.liked ? 'Unlike' : 'Like';
+    }
+    if (data.favorites_count !== undefined) {
+        document.getElementById('fav-count').textContent = data.favorites_count;
+        document.getElementById('fav-btn').textContent = data.favorite ? 'Unfavorite' : 'Favorite';
+    }
+}
+
+function toggleLike() {
+    postJson('{% url "ajax_like" recipe.id %}').then(updateCounts).catch(console.error);
+}
+
+function toggleFavorite() {
+    postJson('{% url "ajax_favorite" recipe.id %}').then(updateCounts).catch(console.error);
+}
+</script>
+{% endblock %}

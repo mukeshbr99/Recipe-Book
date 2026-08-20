@@ -1,0 +1,169 @@
+<svg viewBox="0 0 1400 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff8c42;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff6b42;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff5722;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="lightGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fff9f0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffe8d6;stop-opacity:1" />
+    </linearGradient>
+    
+    <filter id="softShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="4" dy="8" stdDeviation="8" flood-opacity="0.15"/>
+    </filter>
+    
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Gradient -->
+  <rect width="1400" height="800" fill="url(#lightGradient)"/>
+  
+  <!-- Orange Gradient Accent -->
+  <circle cx="200" cy="100" r="400" fill="url(#mainGradient)" opacity="0.15"/>
+  <circle cx="1200" cy="700" r="350" fill="url(#mainGradient)" opacity="0.12"/>
+  
+  <!-- LEFT SIDE: Paper Bag with Vegetables -->
+  <g id="paperBag" transform="translate(150, 350)" filter="url(#softShadow)">
+    <!-- Bag Body -->
+    <path d="M 60 20 L 100 0 L 140 20 L 140 200 Q 100 220 60 200 L 60 20" fill="#f5e6d3" stroke="#e8d4b8" stroke-width="2"/>
+    
+    <!-- Bag Handles -->
+    <path d="M 80 15 Q 70 -10 70 -20" stroke="#d4c4b0" stroke-width="3" fill="none"/>
+    <path d="M 120 15 Q 130 -10 130 -20" stroke="#d4c4b0" stroke-width="3" fill="none"/>
+    
+    <!-- Tomato 1 (floating) -->
+    <g transform="translate(-40, -60)" filter="url(#softShadow)">
+      <circle cx="25" cy="25" r="22" fill="#e74c3c"/>
+      <circle cx="20" cy="25" r="22" fill="#e74c3c" opacity="0.8"/>
+      <path d="M 25 0 Q 30 -15 20 -20 Q 15 -15 25 0" fill="#27ae60"/>
+      <ellipse cx="25" cy="25" rx="22" ry="22" fill="url(#mainGradient)" opacity="0.2"/>
+    </g>
+    
+    <!-- Broccoli (floating) -->
+    <g transform="translate(20, -50)" filter="url(#softShadow)">
+      <ellipse cx="0" cy="30" rx="8" ry="25" fill="#27ae60"/>
+      <circle cx="-12" cy="15" r="9" fill="#2ecc71"/>
+      <circle cx="12" cy="15" r="9" fill="#2ecc71"/>
+      <circle cx="-8" cy="5" r="8" fill="#27ae60"/>
+      <circle cx="8" cy="5" r="8" fill="#27ae60"/>
+      <circle cx="0" cy="0" r="10" fill="#229954"/>
+      <rect x="-3" y="28" width="6" height="20" fill="#8b7355"/>
+    </g>
+    
+    <!-- Carrot (floating) -->
+    <g transform="translate(70, -65)" filter="url(#softShadow)">
+      <polygon points="0,0 -8,25 8,25" fill="#e67e22"/>
+      <path d="M -3 0 Q -8 -10 -5 -20 M 0 0 Q 0 -12 2 -22 M 3 0 Q 8 -10 5 -20" stroke="#27ae60" stroke-width="1.5" fill="none"/>
+      <ellipse cx="0" cy="12" rx="8" ry="15" fill="#f39c12" opacity="0.3"/>
+    </g>
+    
+    <!-- Corn (floating) -->
+    <g transform="translate(100, -40)" filter="url(#softShadow)">
+      <ellipse cx="0" cy="0" rx="10" ry="25" fill="#f1c40f"/>
+      <circle cx="-8" cy="-5" r="3" fill="#f4d03f"/>
+      <circle cx="-4" cy="-12" r="3" fill="#f4d03f"/>
+      <circle cx="0" cy="-15" r="3" fill="#f4d03f"/>
+      <circle cx="4" cy="-12" r="3" fill="#f4d03f"/>
+      <circle cx="8" cy="-5" r="3" fill="#f4d03f"/>
+      <circle cx="-8" cy="5" r="3" fill="#f4d03f"/>
+      <circle cx="0" cy="15" r="3" fill="#f4d03f"/>
+      <circle cx="8" cy="5" r="3" fill="#f4d03f"/>
+      <path d="M -5 -20 L -8 -30 M 0 -18 L 0 -32 M 5 -20 L 8 -30" stroke="#27ae60" stroke-width="2" fill="none"/>
+    </g>
+  </g>
+  
+  <!-- RIGHT SIDE: Sushi & Plate -->
+  <g id="sushiPlate" transform="translate(1050, 300)" filter="url(#softShadow)">
+    <!-- Plate -->
+    <circle cx="80" cy="80" r="95" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="2"/>
+    <circle cx="80" cy="80" r="90" fill="#ffffff"/>
+    <circle cx="80" cy="80" r="85" fill="#fafafa"/>
+    
+    <!-- Decorative plate rim -->
+    <circle cx="80" cy="80" r="85" fill="none" stroke="#ff8c42" stroke-width="1" opacity="0.3"/>
+    
+    <!-- Sushi pieces arrangement -->
+    <g transform="translate(30, 40)">
+      <!-- Sushi 1 -->
+      <ellipse cx="20" cy="20" rx="18" ry="22" fill="#ffffff" stroke="#e8d4c4" stroke-width="1.5"/>
+      <ellipse cx="20" cy="15" rx="16" ry="8" fill="#d4a574"/>
+      <path d="M 8 18 Q 20 14 32 18" stroke="#2ecc71" stroke-width="2" fill="none" stroke-linecap="round"/>
+      
+      <!-- Sushi 2 -->
+      <ellipse cx="60" cy="35" rx="18" ry="22" fill="#ffffff" stroke="#e8d4c4" stroke-width="1.5"/>
+      <ellipse cx="60" cy="30" rx="16" ry="8" fill="#8b0000"/>
+      <path d="M 48 33 Q 60 29 72 33" stroke="#95d836" stroke-width="2" fill="none" stroke-linecap="round"/>
+      
+      <!-- Sushi 3 -->
+      <ellipse cx="100" cy="20" rx="18" ry="22" fill="#ffffff" stroke="#e8d4c4" stroke-width="1.5"/>
+      <ellipse cx="100" cy="15" rx="16" ry="8" fill="#ff6b6b"/>
+      <path d="M 88 18 Q 100 14 112 18" stroke="#ffd93d" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>
+    
+    <!-- Chopsticks -->
+    <line x1="50" y1="140" x2="140" y2="60" stroke="#8b7355" stroke-width="4" stroke-linecap="round" filter="url(#softShadow)"/>
+    <line x1="55" y1="145" x2="145" y2="65" stroke="#a0826d" stroke-width="3" stroke-linecap="round"/>
+    
+    <!-- Herb sprigs -->
+    <g transform="translate(120, 50)">
+      <path d="M 0 0 Q 8 -10 5 -20 M 0 0 Q -8 -8 -5 -18 M 0 0 Q 3 -12 0 -22" stroke="#27ae60" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <circle cx="0" cy="-20" r="2" fill="#2ecc71"/>
+      <circle cx="-5" cy="-18" r="2" fill="#2ecc71"/>
+      <circle cx="5" cy="-18" r="2" fill="#2ecc71"/>
+    </g>
+  </g>
+  
+  <!-- GROCERY BASKET -->
+  <g id="basket" transform="translate(1150, 550)" filter="url(#softShadow)">
+    <!-- Basket Body -->
+    <ellipse cx="50" cy="60" rx="45" ry="50" fill="#d4a574" stroke="#a0826d" stroke-width="2"/>
+    
+    <!-- Basket weave pattern -->
+    <g stroke="#a0826d" stroke-width="1" opacity="0.4">
+      <line x1="10" y1="30" x2="90" y2="30"/>
+      <line x1="8" y1="45" x2="92" y2="45"/>
+      <line x1="8" y1="60" x2="92" y2="60"/>
+      <line x1="10" y1="75" x2="90" y2="75"/>
+    </g>
+    
+    <!-- Basket Handle -->
+    <path d="M 25 15 Q 50 -15 75 15" stroke="#a0826d" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M 25 15 Q 50 -10 75 15" stroke="#c9a876" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Items in basket -->
+    <!-- Apple -->
+    <circle cx="25" cy="35" r="12" fill="#e74c3c"/>
+    <path d="M 25 20 Q 28 15 25 10" stroke="#27ae60" stroke-width="1.5" fill="none"/>
+    
+    <!-- Tomato -->
+    <circle cx="75" cy="40" r="11" fill="#e74c3c"/>
+    <path d="M 75 25 L 78 18 L 72 18 Z" fill="#27ae60"/>
+    
+    <!-- Carrot -->
+    <polygon points="50,45 45,60 55,60" fill="#e67e22"/>
+    
+    <!-- Orange item -->
+    <circle cx="40" cy="50" r="10" fill="#f39c12"/>
+    
+    <!-- Banana -->
+    <path d="M 65 55 Q 70 45 68 35" stroke="#f1c40f" stroke-width="8" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- CENTER: Clean Space for Search/Input (indicated by subtle circle) -->
+  <circle cx="700" cy="400" r="120" fill="white" opacity="0.05" stroke="#ff8c42" stroke-width="2" stroke-dasharray="5,5" opacity="0.1"/>
+  
+  <!-- Floating decorative elements -->
+  <circle cx="300" cy="150" r="8" fill="#ff8c42" opacity="0.3" filter="url(#softShadow)"/>
+  <circle cx="1100" cy="200" r="6" fill="#ff8c42" opacity="0.25" filter="url(#softShadow)"/>
+  <circle cx="400" cy="700" r="7" fill="#ff8c42" opacity="0.2" filter="url(#softShadow)"/>
+  <circle cx="1000" cy="680" r="9" fill="#ff8c42" opacity="0.25" filter="url(#softShadow)"/>
+</svg>

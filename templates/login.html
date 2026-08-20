@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex align-items-center justify-content-center" style="min-height: 78vh;">
+    <div class="card shadow-lg" style="width: 100%; max-width: 420px; background: rgba(0, 0, 0, 0.95); border: 1px solid rgba(255,111,97, 0.3);">
+        <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4" style="color: #ff6f61; font-weight: 700;">Welcome Back</h2>
+            <p class="text-center mb-4" style="color: #b0b0c0;">Log in to continue and manage your recipe collection.</p>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label" for="{{ form.email.id_for_label }}" style="color: #ffffff; font-weight: 500;">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    <div class="text-danger" style="font-size: 0.875rem;">{{ form.email.errors }}</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="{{ form.password.id_for_label }}" style="color: #ffffff; font-weight: 500;">{{ form.password.label }}</label>
+                    {{ form.password }}
+                    <div class="text-danger" style="font-size: 0.875rem;">{{ form.password.errors }}</div>
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="text-danger mb-3">{{ form.non_field_errors }}</div>
+                {% endif %}
+                <button class="btn btn-lg btn-block" type="submit" style="background: #ff6f61; color:#fff; width:100%; font-weight: 600; margin-top: 10px;">Login</button>
+            </form>
+            <p class="mt-3 text-center" style="color: #b0b0c0;">New here? <a href="{% url 'signup' %}" style="color: #ffb347; text-decoration: none; font-weight: 500;">Sign up</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Book</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <style>
+        :root {
+            --gradient-bg: linear-gradient(rgba(10, 10, 20, 0.74), rgba(6, 6, 12, 0.74));
+            --accent: #ff6f61; /* brighter - coral */
+            --accent-soft: rgba(255, 111, 97, 0.2);
+            --card-bg: rgba(15, 18, 34, 0.78);
+            --text-main: #f0f0f5;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fffdf7 0%, #ffe5d9 65%, #f8efe6 100%);
+            color: #1f1f2e;
+            min-height: 100vh;
+            padding-top: 5rem;
+        }
+        .navbar, .card, .alert {
+            background-color: rgba(0, 0, 0, 0.95) !important;
+            backdrop-filter: blur(12px);
+        }
+        .navbar-nav .nav-link.btn:hover {
+            color: #ffffff !important;
+        }
+        .recipe-card { transition: transform .2s ease, box-shadow .2s ease; border: 0; }
+        .recipe-card:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.35); }
+        .btn-primary, .btn-outline-primary { background: var(--accent); border-color: var(--accent); color: #1b1f38; }
+        .btn-secondary, .btn-outline-secondary { border-color: #6c757d; }
+        .card-title, .card-text, h1, h2, h3 { color: #fff; }
+        .page-link { background: rgba(33,37,41,0.7); color: #fff; }
+        .page-item.active .page-link { background: var(--accent); border-color: var(--accent); }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}" style="font-weight: 700; font-size: 1.3rem; color: #4faffe;">🍽️ Recipe Hub</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary me-2" href="{% url 'home' %}" style="background: #ff6f61; border-color: #ff6f61; color: #1b1f38; font-weight: 600; border-radius: 8px; padding: 8px 16px;">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn btn-primary me-2" href="{% url 'categories_list' %}" style="background: #f1c40f; border-color: #f1c40f; color: #1b1f38; font-weight: 600; border-radius: 8px; padding: 8px 16px;">Categories</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'recipe_create' %}">+ Create Recipe</a></li>
+                {% endif %}
+            </ul>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="#">Hi, {{ user.username }}</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary me-2" href="{% url 'login' %}" style="background: #ff6f61; border-color: #ff6f61; color: #1b1f38; font-weight: 600; border-radius: 8px; padding: 8px 16px;">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="{% url 'signup' %}" style="background: #34d399; border-color: #34d399; color: #1b1f38; font-weight: 600; border-radius: 8px; padding: 8px 16px;">Sign Up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    {% if messages %}
+        <div class="my-2">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script>
+    function postAction(url, button, data = {}) {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: JSON.stringify(data),
+            credentials: 'same-origin'
+        })
+        .then(resp => resp.json())
+        .then(json => {
+            if(json.likes_count !== undefined) {
+                document.querySelector(`#like-count-${json.recipe_id}`).textContent = json.likes_count;
+                button.textContent = json.liked ? 'Unlike' : 'Like';
+            }
+            if(json.favorites_count !== undefined) {
+                document.querySelector(`#fav-count-${json.recipe_id}`).textContent = json.favorites_count;
+                button.textContent = json.favorite ? 'Unfavorite' : 'Favorite';
+            }
+        })
+        .catch(err => console.error('AJAX error', err));
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+</body>
+</html>

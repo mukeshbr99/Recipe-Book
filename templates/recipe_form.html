@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card shadow-lg" style="background: rgba(7, 9, 19, 0.87); border: 1px solid rgba(255,255,255,0.16); border-radius: 20px;">
+            <div class="card-body p-5">
+                <div class="mb-5">
+                    <h1 class="display-5 mb-3" style="color: #ff6f61; font-weight: 700;">{{ action }} Your Recipe</h1>
+                    <p class="lead" style="color: #d0d0e0; font-size: 1.15rem; line-height: 1.6;">
+                        Share your culinary creation with the Recipe Hub community. Fill in all the details below and let food lovers discover your amazing dish! 🍳✨
+                    </p>
+                </div>
+                
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Non-field errors -->
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger mb-4" style="background: rgba(220,53,69,0.2); border: 1px solid rgba(220,53,69,0.5);">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    {% for field, icon in form_fields %}
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ field.id_for_label }}" style="color: #ff6f61; font-weight: 700; font-size: 1.05rem;">{{ icon }} {{ field.label }}</label>
+                            {{ field }}
+                            {% if field.name == 'ingredients' %}<small class="text-muted">Comma-separated ingredients list for easy reading</small>{% endif %}
+                            {% if field.name == 'instructions' %}<small class="text-muted">Provide clear, numbered steps for best results</small>{% endif %}
+                            {% if field.name == 'image' %}<small class="text-muted">Recommended: High-quality image (JPG/PNG, min 800x600px)</small>{% endif %}
+                            <div class="text-danger small mt-2">{{ field.errors }}</div>
+                        </div>
+                    {% endfor %}
+                    
+                    <!-- Featured Flag -->
+                    <div class="mb-5">
+                        <div class="form-check" style="padding: 12px; background: rgba(255,111,97,0.1); border-radius: 8px;">
+                            <input class="form-check-input" type="checkbox" name="is_featured" id="{{ form.is_featured.id_for_label }}" style="cursor: pointer;" />
+                            <label class="form-check-label" for="{{ form.is_featured.id_for_label }}" style="color: #ff6f61; font-weight: 600; cursor: pointer;">
+                                ⭐ {{ form.is_featured.label }} (appears on homepage spotlight)
+                            </label>
+                            <button id="create-recipe-submit" name="submit" value="create_recipe" class="btn btn-lg w-100 mt-3" type="submit" aria-label="{% if action == 'Create' %}Create Recipe{% else %}Update Recipe{% endif %}" style="background: #ff6f61; color: #fff; font-weight: 700; padding: 14px 24px; border-radius: 10px;">
+                                ✅ {% if action == 'Create' %}Create Recipe{% else %}Update Recipe{% endif %}
+                            </button>
+                        </div>
+                        <div class="text-danger small mt-2">{{ form.is_featured.errors }}</div>
+                    </div>
+                    
+                    <!-- Submit & Cancel -->
+                    <div class="d-grid mt-3">
+                        <a href="{% url 'home' %}" class="btn btn-lg btn-outline-secondary" style="padding: 14px 24px; border-radius: 10px;">
+                            ← Back to Home
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
